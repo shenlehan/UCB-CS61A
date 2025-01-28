@@ -48,7 +48,63 @@ class VendingMachine:
     'Here is your soda.'
     """
     "*** YOUR CODE HERE ***"
+    def __init__(self, product, price):
+        """Set the product and its price, as well as other instance attributes."""
+        "*** YOUR CODE HERE ***"
+        self.product = product
+        self.price = price
+        self.num = 0
+        self.balance = 0
 
+    def restock(self, n):
+        """Add n to the stock and return a message about the updated stock level.
+
+        E.g., Current candy stock: 3
+        """
+        "*** YOUR CODE HERE ***"
+        self.num += n
+        return "Current %s stock: %d" % (self.product, self.num)
+
+    def add_funds(self, n):
+        """If the machine is out of stock, return a message informing the user to restock
+        (and return their n dollars).
+
+        E.g., Nothing left to vend. Please restock. Here is your $4.
+
+        Otherwise, add n to the balance and return a message about the updated balance.
+
+        E.g., Current balance: $4
+        """
+        "*** YOUR CODE HERE ***"
+        if self.num == 0:
+            return 'Nothing left to vend. Please restock. Here is your $%d.' % (n)
+        else:
+            self.balance += n
+            return "Current balance: $%d" % (self.balance)
+
+
+    def vend(self):
+        """Dispense the product if there is sufficient stock and funds and
+        return a message. Update the stock and balance accordingly.
+
+        E.g., Here is your candy and $2 change.
+
+        If not, return a message suggesting how to correct the problem.
+
+        E.g., Nothing left to vend. Please restock.
+              Please add $3 more funds.
+        """
+        "*** YOUR CODE HERE ***"
+        if self.num == 0:
+            return "Nothing left to vend. Please restock." + ("Here is your $%d." % (self.balance) if self.balance != 0 else "")
+        else:
+            if self.balance >= self.price:
+                s = "Here is your %s and $%d change." % (self.product, self.balance - self.price) if self.balance - self.price != 0 else "Here is your %s." % self.product
+                self.balance = 0
+                self.num -= 1
+                return s
+            else:
+                return "Please add $%d more funds." % (self.price - self.balance)
 
 def store_digits(n):
     """Stores the digits of a positive number n in a linked list.
@@ -68,6 +124,19 @@ def store_digits(n):
     >>> print("Do not use str or reversed!") if any([r in cleaned for r in ["str", "reversed"]]) else None
     """
     "*** YOUR CODE HERE ***"
+    s = []
+    while n:
+        s.append(n % 10)
+        n //= 10
+    for i in range(len(s) // 2):
+        s[i], s[len(s) - 1 - i] = s[len(s) - i - 1], s[i]
+    
+    def solve(i):
+        if i == len(s) - 1:
+            return Link(s[i])
+        return Link(s[i], solve(i + 1))
+
+    return solve(0)
 
 
 def deep_map_mut(func, lnk):
@@ -90,6 +159,13 @@ def deep_map_mut(func, lnk):
     <9 <16> 25 36>
     """
     "*** YOUR CODE HERE ***"
+    if isinstance(lnk.first, Link):
+        deep_map_mut(func, lnk.first)
+    else:
+        lnk.first = func(lnk.first)
+
+    if lnk.rest: # be aware of this
+        deep_map_mut(func, lnk.rest)
 
 
 def two_list(vals, counts):
@@ -111,6 +187,16 @@ def two_list(vals, counts):
     Link(1, Link(1, Link(3, Link(3, Link(2)))))
     """
     "*** YOUR CODE HERE ***"
+    s = []
+    for i in range(len(vals)):
+        for j in range(counts[i]):
+            s.append(vals[i])
+    
+    def build(i):
+        if i == len(s) - 1:
+            return Link(s[i])
+        return Link(s[i], build(i + 1))
+    return build(0)
 
 
 class Link:
