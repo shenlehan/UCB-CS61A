@@ -13,6 +13,11 @@ def shuffle(s):
     """
     assert len(s) % 2 == 0, 'len(seq) must be even'
     "*** YOUR CODE HERE ***"
+    res = []
+    for i in range(0, len(s) // 2):
+        res.append(s[i])
+        res.append(s[i + len(s) // 2])
+    return res
 
 
 def deep_map(f, s):
@@ -38,6 +43,17 @@ def deep_map(f, s):
     True
     """
     "*** YOUR CODE HERE ***"
+    def resolve(item):
+        if type(item) != list:
+            return f(item)
+        else:
+            for i in range(len(item)):
+                item[i] = resolve(item[i])
+            return item
+    
+    for i in range(len(s)):
+        s[i] = resolve(s[i])
+
 
 
 HW_SOURCE_FILE=__file__
@@ -47,11 +63,13 @@ def planet(mass):
     """Construct a planet of some mass."""
     assert mass > 0
     "*** YOUR CODE HERE ***"
+    return ['planet', mass]
 
 def mass(p):
     """Select the mass of a planet."""
     assert is_planet(p), 'must call mass on a planet'
     "*** YOUR CODE HERE ***"
+    return p[1]
 
 def is_planet(p):
     """Whether p is a planet."""
@@ -104,6 +122,10 @@ def balanced(m):
     True
     """
     "*** YOUR CODE HERE ***"
+    if m[0] == 'planet':
+        return True
+    else:
+        return total_mass(end(left(m))) * length(left(m)) == total_mass(end(right(m))) * length(right(m)) and balanced(end(left(m))) and balanced(end(right(m)))
 
 
 def berry_finder(t):
@@ -124,6 +146,19 @@ def berry_finder(t):
     True
     """
     "*** YOUR CODE HERE ***"
+    if is_leaf(t):
+        if t[0] == 'berry':
+            return True
+
+    elif label(t) == 'berry':
+        return True
+
+    else:
+        for i in branches(t):
+            if berry_finder(i) == True:
+                return True
+    
+    return False
 
 
 HW_SOURCE_FILE=__file__
@@ -139,6 +174,16 @@ def max_path_sum(t):
     17
     """
     "*** YOUR CODE HERE ***"
+    def dfs(cur, maxval):
+        if is_leaf(cur):
+            return maxval + label(cur)
+        
+        res = 0
+        for i in branches(cur):
+            res = max(res, dfs(i, maxval + label(cur)))
+        return res
+
+    return dfs(t, 0)    
 
 
 def mobile(left, right):

@@ -9,7 +9,16 @@ def hailstone(n):
     1
     """
     "*** YOUR CODE HERE ***"
-
+    if n == 1:
+        yield 1
+        yield from hailstone(1)
+    if n % 2 == 0:
+        yield n
+        yield from hailstone(n // 2)
+    else:
+        yield n
+        yield from hailstone(n * 3 + 1)
+    
 
 def merge(a, b):
     """Q2:
@@ -24,7 +33,17 @@ def merge(a, b):
     [2, 3, 5, 7, 8, 9, 11, 13, 14, 15]
     """
     "*** YOUR CODE HERE ***"
-
+    a_val, b_val = next(a), next(b)
+    while True:
+        if a_val == b_val:
+            yield a_val
+            a_val = next(a)
+        elif a_val < b_val:
+            yield a_val
+            a_val = next(a)
+        else:
+            yield b
+            b_val = next(b)
 
 def yield_paths(t, value):
     """Q4: Yields all possible paths from the root of t to a node with the label
@@ -60,12 +79,14 @@ def yield_paths(t, value):
     >>> sorted(list(path_to_2))
     [[0, 2], [0, 2, 1, 2]]
     """
-    if label(t) == value:
-        yield ____
-    for b in branches(t):
-        for ____ in ____:
-            yield ____
 
+
+
+    if label(t) == value:
+        yield [label(t)]
+    for b in branches(t):
+        for node in yield_paths(b, value):
+            yield 
 
 
 # Tree Data Abstraction
