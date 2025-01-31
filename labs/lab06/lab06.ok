@@ -1,19 +1,19 @@
 {
     "name": "Lab 6",
-    "endpoint": "cal/cs61a/sp23/lab06",
+    "endpoint": "cal/cs61a/fa24/lab06",
     "src": [
-        "lab06.py"
+        "lab06.py",
+        "classes.py"
     ],
     "tests": {
         "lab*.py": "doctest",
-        "tests/*.py": "ok_test"
+        "tests/*.py": "ok_test",
+        "classes.py": "doctest"
     },
     "default_tests": [
-        "list-mutation",
-        "insert_items",
-        "iterators-wwpd",
-        "count_occurrences",
-        "repeated"
+        "BankAccount",
+        "Client",
+        "Mint"
     ],
     "protocols": [
         "restore",
