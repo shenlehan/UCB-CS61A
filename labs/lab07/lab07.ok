@@ -1,6 +1,6 @@
 {
     "name": "Lab 7",
-    "endpoint": "cal/cs61a/sp23/lab07",
+    "endpoint": "cal/cs61a/fa24/lab07",
     "src": [
         "lab07.py",
         "classes.py"
@@ -11,10 +11,10 @@
         "classes.py": "doctest"
     },
     "default_tests": [
-        "amplify",
-        "no-wwpd-car",
-        "Person",
-        "SmartFridge"
+        "Account",
+        "FreeChecking",
+        "without",
+        "duplicate_link"
     ],
     "protocols": [
         "restore",
